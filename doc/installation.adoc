@@ -47,11 +47,11 @@ $ nix-channel --add https://github.com/nix-community/home-manager/archive/master
 $ nix-channel --update
 ----
 +
-and if you follow a Nixpkgs version 20.09 channel, you can run
+and if you follow a Nixpkgs version 21.05 channel, you can run
 +
 [source,console]
 ----
-$ nix-channel --add https://github.com/nix-community/home-manager/archive/release-20.09.tar.gz home-manager
+$ nix-channel --add https://github.com/nix-community/home-manager/archive/release-21.05.tar.gz home-manager
 $ nix-channel --update
 ----
 +
@@ -79,8 +79,14 @@ configuration then you must source the
 [source,bash]
 $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
 +
-file in your shell configuration. Unfortunately, we currently only
-support POSIX.2-like shells such as
+file in your shell configuration. Alternatively source
++
+[source,bash]
+/etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh
++
+when managing home configuration together with system configuration.
++
+Unfortunately, we currently only support POSIX.2-like shells such as
 https://www.gnu.org/software/bash/[Bash] or
 http://zsh.sourceforge.net/[Z shell].
 +
@@ -119,11 +125,11 @@ or an unstable channel, you can run
 # nix-channel --update
 ----
 
-and if you follow a Nixpkgs version 20.09 channel, you can run
+and if you follow a Nixpkgs version 21.05 channel, you can run
 
 [source,console]
 ----
-# nix-channel --add https://github.com/nix-community/home-manager/archive/release-20.09.tar.gz home-manager
+# nix-channel --add https://github.com/nix-community/home-manager/archive/release-21.05.tar.gz home-manager
 # nix-channel --update
 ----
 
@@ -197,11 +203,11 @@ or an unstable channel, you can run
 # nix-channel --update
 ----
 
-and if you follow a Nixpkgs version 20.09 channel, you can run
+and if you follow a Nixpkgs version 21.05 channel, you can run
 
 [source,console]
 ----
-# nix-channel --add https://github.com/nix-community/home-manager/archive/release-20.09.tar.gz home-manager
+# nix-channel --add https://github.com/nix-community/home-manager/archive/release-21.05.tar.gz home-manager
 # nix-channel --update
 ----
 
@@ -224,7 +230,7 @@ home-manager.users.eve = { pkgs, ... }: {
 };
 ----
 
-and after a `darwin-rebuild --switch` the user eve's environment
+and after a `darwin-rebuild switch` the user eve's environment
 should include a basic Bash configuration and the packages atool and
 httpie.
 

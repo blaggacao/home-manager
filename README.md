@@ -3,8 +3,10 @@ Home Manager using Nix
 
 This project provides a basic system for managing a user environment
 using the [Nix][] package manager together with the Nix libraries
-found in [Nixpkgs][]. Before attempting to use Home Manager please
-read the warning below.
+found in [Nixpkgs][]. It allows declarative configuration of user
+specific (non global) packages and dotfiles.
+
+Before attempting to use Home Manager please read the warning below.
 
 For a more systematic overview of Home Manager and its available
 options, please see the [Home Manager manual][manual].
@@ -12,22 +14,25 @@ options, please see the [Home Manager manual][manual].
 Words of warning
 ----------------
 
-This project is under development. I personally use it to manage
-several user configurations but it may fail catastrophically for you.
-So beware!
+Unfortunately, it is quite possible to get difficult to understand
+errors when working with Home Manager, such as infinite loops with no
+clear source reference. You should therefore be comfortable using the
+Nix language and the various tools in the Nix ecosystem. Reading
+through the [Nix Pills][] document is a good way to familiarize
+yourself with them.
 
-Before using Home Manager you should be comfortable using the Nix
-language and the various tools in the Nix ecosystem. Reading through
-the [Nix Pills][] document is a good way to familiarize yourself with
-them.
+If you are not very familiar with Nix but still want to use Home
+Manager then you are strongly encouraged to start with a small and
+very simple configuration and gradually make it more elaborate as you
+learn.
 
 In some cases Home Manager cannot detect whether it will overwrite a
 previous manual configuration. For example, the Gnome Terminal module
 will write to your dconf store and cannot tell whether a configuration
-that it is about to be overwrite was from a previous Home Manager
+that it is about to be overwritten was from a previous Home Manager
 generation or from manual configuration.
 
-Home Manager targets [NixOS][] unstable and NixOS version 20.09 (the
+Home Manager targets [NixOS][] unstable and NixOS version 21.05 (the
 current stable version), it may or may not work on other Linux
 distributions and NixOS versions.
 
@@ -43,8 +48,7 @@ Contact
 -------
 
 You can chat with us on IRC in the channel [#home-manager][] on
-[freenode][]. The [channel logs][] are hosted courtesy of
-[samueldr][].
+[OFTC][].
 
 Installation
 ------------
@@ -71,10 +75,10 @@ Currently the easiest way to install Home Manager is as follows:
     $ nix-channel --update
     ```
 
-    and if you follow a Nixpkgs version 20.09 channel you can run
+    and if you follow a Nixpkgs version 21.05 channel you can run
 
     ```console
-    $ nix-channel --add https://github.com/nix-community/home-manager/archive/release-20.09.tar.gz home-manager
+    $ nix-channel --add https://github.com/nix-community/home-manager/archive/release-21.05.tar.gz home-manager
     $ nix-channel --update
     ```
 
@@ -113,6 +117,13 @@ Currently the easiest way to install Home Manager is as follows:
     . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
     ```
 
+    or this when managing home configuration together with system
+    configuration
+
+    ```bash
+    . "/etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh"
+    ```
+
     to your `~/.profile` file.
 
 If instead of using channels you want to run Home Manager from a Git
@@ -131,7 +142,7 @@ configuration generations.
 As an example, let us expand the initial configuration file from the
 installation above to install the htop and fortune packages, install
 Emacs with a few extra packages enabled, install Firefox with
-smooth scrolling enabled, and enable the user gpg-agent service.
+smooth scrolling disabled, and enable the user gpg-agent service.
 
 To satisfy the above setup we should elaborate the
 `~/.config/nixpkgs/home.nix` file as follows:
@@ -268,7 +279,7 @@ then result in
 $ home-manager switch
 …
 Activating checkLinkTargets
-Existing file '/home/jdoe/.gitconfig' is in the way
+Existing file '/home/jdoe/.config/git/config' is in the way
 Please move the above files and try again
 ```
 
@@ -332,7 +343,7 @@ as follows:
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.user = import ./home.nix;
+            home-manager.users.jdoe = import ./home.nix;
           }
         ];
       };
@@ -344,6 +355,10 @@ as follows:
 Note, the Home Manager library is exported by the flake under
 `lib.hm`.
 
+When using flakes, switch to new configurations as you do for the
+whole system (e. g. `nixos-rebuild switch --flake <path>`) instead of
+using the `home-manager` command line tool.
+
 Releases
 --------
 
@@ -351,7 +366,7 @@ Home Manager is developed against `nixpkgs-unstable` branch, which
 often causes it to contain tweaks for changes/packages not yet
 released in stable NixOS. To avoid breaking users' configurations,
 Home Manager is released in branches corresponding to NixOS releases
-(e.g. `release-20.09`). These branches get fixes, but usually not new
+(e.g. `release-21.05`). These branches get fixes, but usually not new
 modules. If you need a module to be backported, then feel free to open
 an issue.
 
@@ -364,9 +379,8 @@ an issue.
 [Z shell]: http://zsh.sourceforge.net/
 [manual]: https://nix-community.github.io/home-manager/
 [configuration options]: https://nix-community.github.io/home-manager/options.html
-[#home-manager]: https://webchat.freenode.net/?url=irc%3A%2F%2Firc.freenode.net%2Fhome-manager
-[freenode]: https://freenode.net/
-[channel logs]: https://logs.nix.samueldr.com/home-manager/
+[#home-manager]: https://webchat.oftc.net/?channels=home-manager
+[OFTC]: https://oftc.net/
 [samueldr]: https://github.com/samueldr/
 [Nix Pills]: https://nixos.org/nixos/nix-pills/
 [Nix Flakes]: https://nixos.wiki/wiki/Flakes

@@ -7,8 +7,8 @@ let
   nmt = pkgs.fetchFromGitLab {
     owner = "rycee";
     repo = "nmt";
-    rev = "26af5c54c88695ed73be93a9eae6b71f2d76d04a";
-    sha256 = "1m10cwjh63qkz2rgnm0wk16pxh52lp8i9kjfv6cfhbzl5df4q95p";
+    rev = "89924d8e6e0fcf866a11324d32c6bcaa89cda506";
+    sha256 = "02wzrbmpdpgig58a1rhz8sb0p2rvbapnlcmhi4d4bi8w9md6pmdl";
   };
 
   modules = import ../modules/modules.nix {
@@ -25,6 +25,8 @@ let
       # Avoid including documentation since this will cause
       # unnecessary rebuilds of the tests.
       manual.manpages.enable = false;
+
+      imports = [ ./asserts.nix ];
     }
   ];
 
@@ -51,24 +53,35 @@ import nmt {
     ./modules/programs/gh
     ./modules/programs/git
     ./modules/programs/gpg
+    ./modules/programs/himalaya
+    ./modules/programs/htop
     ./modules/programs/i3status
+    ./modules/programs/irsii
     ./modules/programs/kakoune
+    ./modules/programs/kitty
     ./modules/programs/lf
     ./modules/programs/lieer
     ./modules/programs/man
     ./modules/programs/mbsync
+    ./modules/programs/mpv
     ./modules/programs/ncmpcpp
     ./modules/programs/ne
     ./modules/programs/neomutt
     ./modules/programs/newsboat
+    ./modules/programs/nix-index
     ./modules/programs/nushell
+    ./modules/programs/pet
     ./modules/programs/powerline-go
     ./modules/programs/qutebrowser
     ./modules/programs/readline
+    ./modules/programs/sbt
+    ./modules/programs/scmpuff
+    ./modules/programs/sm64ex
     ./modules/programs/ssh
     ./modules/programs/starship
     ./modules/programs/texlive
     ./modules/programs/tmux
+    ./modules/programs/topgrade
     ./modules/programs/vscode
     ./modules/programs/zplug
     ./modules/programs/zsh
@@ -76,29 +89,46 @@ import nmt {
   ] ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
     ./modules/targets-darwin
   ] ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
+    ./modules/config/i18n
+    ./modules/i18n/input-method
     ./modules/misc/debug
+    ./modules/misc/gtk
     ./modules/misc/numlock
     ./modules/misc/pam
+    ./modules/misc/qt
     ./modules/misc/xdg
     ./modules/misc/xsession
     ./modules/programs/abook
     ./modules/programs/autorandr
     ./modules/programs/firefox
+    ./modules/programs/foot
     ./modules/programs/getmail
+    ./modules/programs/gnome-terminal
     ./modules/programs/i3status-rust
+    ./modules/programs/mangohud
     ./modules/programs/ncmpcpp-linux
     ./modules/programs/neovim   # Broken package dependency on Darwin.
+    ./modules/programs/rbw
     ./modules/programs/rofi
     ./modules/programs/rofi-pass
+    ./modules/programs/terminator
     ./modules/programs/waybar
+    ./modules/programs/xmobar
+    ./modules/services/barrier
+    ./modules/services/devilspie2
     ./modules/services/dropbox
     ./modules/services/emacs
     ./modules/services/fluidsynth
     ./modules/services/kanshi
     ./modules/services/lieer
+    ./modules/services/pantalaimon
     ./modules/services/pbgopy
+    ./modules/services/playerctld
     ./modules/services/polybar
+    ./modules/services/redshift-gammastep
     ./modules/services/sxhkd
+    ./modules/services/syncthing
+    ./modules/services/window-managers/bspwm
     ./modules/services/window-managers/i3
     ./modules/services/window-managers/sway
     ./modules/services/wlsunset

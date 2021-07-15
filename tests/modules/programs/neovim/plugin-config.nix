@@ -23,14 +23,11 @@ with lib;
     };
 
     nmt.script = ''
-      vimrc=$(grep -Po "(?<=-u )[^ ]*" < "${
-        builtins.toJSON config.programs.neovim.finalPackage
-      }/bin/nvim")
-      # We need to remove the unkown store paths in the config
-      TESTED="" assertFileContent \
-        <( ${pkgs.perl}/bin/perl -pe "s|\Q$NIX_STORE\E/[a-z0-9]{32}-|$NIX_STORE/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-|g" < "$vimrc"
-         ) \
-        "${./plugin-config.vim}"
+      vimrc="$TESTED/home-files/.config/nvim/init.vim"
+      vimrcNormalized="$(normalizeStorePaths "$vimrc")"
+
+      assertFileExists "$vimrc"
+      assertFileContent "$vimrcNormalized" "${./plugin-config.vim}"
     '';
   };
 }
