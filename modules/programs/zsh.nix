@@ -444,7 +444,7 @@ in
 
     {
       home.packages = with pkgs; [ zsh ]
-        ++ optional cfg.enableCompletion nix-zsh-completions
+        ++ optional (cfg.enableCompletion && !(versionAtLeast builtins.nixVersion "2.4")) nix-zsh-completions
         ++ optional cfg.oh-my-zsh.enable oh-my-zsh;
 
       home.file."${relToDotDir ".zshrc"}".text = ''
